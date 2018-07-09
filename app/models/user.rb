@@ -1,10 +1,12 @@
 class User < ApplicationRecord
+  has_many :posts, dependent: :destroy
+
   devise :database_authenticatable, :recoverable, :validatable
 
   before_save { self.username = username.downcase }
   after_create :update_access_token!
 
-  validates :username, presence: true, uniqueness: { case_sensitive: false }
+  validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { minimum: 3, maximum: 32 }
   validates :email, uniqueness: true, allow_nil: true
 
   private

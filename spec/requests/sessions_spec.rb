@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'user login' do
+RSpec.describe 'Session API', type: :request do
 
   let(:user) { FactoryBot.create(:user) }
 

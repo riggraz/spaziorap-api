@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   skip_before_action :authenticate_user_from_token!
 
-  # POST /v1/login
+  # POST /login
   def create
     @user = User.find_by(username: params[:username].downcase)
     return invalid_login_attempt unless @user
