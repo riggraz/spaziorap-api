@@ -1,6 +1,4 @@
 class SessionsController < ApplicationController
-  skip_before_action :authenticate_user_from_token!
-
   # POST /login
   def create
     @user = User.find_by(username: params[:username].downcase)
@@ -8,7 +6,7 @@ class SessionsController < ApplicationController
 
     if @user.valid_password?(params[:password])
       sign_in :user, @user
-      render json: SessionSerializer.new(@user).serialized_json
+      render json: SessionSerializer.new(current_user).serialized_json
     else
       invalid_login_attempt
     end
