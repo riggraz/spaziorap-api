@@ -1,11 +1,25 @@
 Rails.application.routes.draw do
   devise_for :users, only: []
 
+  ### Auth ###
+  # POST /users (registration)
   resources :users, only: [:create]
+
+  # POST /login (login)
   resource :login, only: [:create], controller: :sessions
 
-  resources :topics, only: [:index]
-  resources :posts, only: [:index, :show, :create]
+  ### Topic ###
+  # GET /topics (list of all Topics)
+  resources :topics, only: [:index] do
+    # GET /topics/:id/posts (Posts of specified Topic)
+    resources :posts, only: [:index]
+  end
 
-  #add posts by topic
+  ### Post ###
+  # GET /posts/:id (specified Post)
+  # POST /posts (create a Post)
+  resources :posts, only: [:show, :create] do
+    # GET /posts/latest (last 50 Posts)
+    get 'latest', on: :collection
+  end
 end

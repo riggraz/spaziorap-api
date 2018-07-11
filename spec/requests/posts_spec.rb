@@ -4,18 +4,21 @@ RSpec.describe 'Posts API' do
 
   let(:user) { FactoryBot.create(:user) }
 
-  # GET /posts
-  it 'sends the latest 50 posts' do
-    FactoryBot.create_list(:post, 51, user: user)
+  # GET /topics/:id/posts
+  it 'sends posts of specified topic' do
+    topic1 = FactoryBot.create(:topic)
+    topic2 = FactoryBot.create(:topic)
+
+    FactoryBot.create(:post, topic: topic1)
+    FactoryBot.create(:post, topic: topic2)
 
     get(
-      '/posts'
+      "/topics/#{topic1.id}/posts"
     )
 
     json = JSON.parse(response.body)
 
-    expect(response).to be_success
-    expect(json['data'].length).to eq(50)
+    expect(json['data'].length).to eq(1)
   end
 
   # GET /posts/:id
@@ -56,6 +59,20 @@ RSpec.describe 'Posts API' do
 
     expect(response).to be_success
     expect(Post.count).to eq(1)
+  end
+
+  # GET /posts/latest
+  it 'sends the latest 50 posts' do
+    FactoryBot.create_list(:post, 51, user: user)
+
+    get(
+      '/posts/latest'
+    )
+
+    json = JSON.parse(response.body)
+
+    expect(response).to be_success
+    expect(json['data'].length).to eq(50)
   end
 
 end

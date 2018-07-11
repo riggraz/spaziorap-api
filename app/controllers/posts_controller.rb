@@ -1,14 +1,15 @@
 class PostsController < ApplicationController
   before_action :authenticate_user_from_token!, only: [:create]
 
-  # GET /posts
+  # GET /topics/:id/posts
   def index
-    n = 50
-    
-    @posts = Post.order(created_at: :desc).limit(n)
+    unless params[:topic_id].nil?
+      @posts = Topic.find(params[:topic_id]).posts
+    end
+
     render json: PostSerializer.new(@posts).serialized_json
   end
-
+  
   # GET /posts/:id
   def show
     @post = Post.find(params[:id])
@@ -26,6 +27,15 @@ class PostsController < ApplicationController
     end
   end
 
+  # GET /posts/latest
+  def latest
+    n = 50
+    
+    @posts = Post.order(created_at: :desc).limit(n)
+    render json: PostSerializer.new(@posts).serialized_json
+  end
+
+  
   private
 
     def post_params
