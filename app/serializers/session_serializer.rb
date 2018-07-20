@@ -1,5 +1,5 @@
 class SessionSerializer
   include FastJsonapi::ObjectSerializer
 
-  attributes :id, :access_token
+  attributes :id, :username, :admin, :access_token
 end

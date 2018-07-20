@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   # GET /topics/:id/posts
   def index
     unless params[:topic_id].nil?
-      @posts = Topic.find(params[:topic_id]).posts
+      @posts = Topic.find(params[:topic_id]).posts.order(created_at: :desc)
     end
 
     render json: PostSerializer.new(@posts).serialized_json
