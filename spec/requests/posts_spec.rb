@@ -21,6 +21,23 @@ RSpec.describe 'Posts API' do
     expect(json['data'].length).to eq(1)
   end
 
+  # GET /users/:id/posts
+  it 'sends posts of specified user' do
+    user2 = FactoryBot.create(:user)
+
+    FactoryBot.create(:post, user: user)
+    FactoryBot.create(:post, user: user)
+    FactoryBot.create(:post, user: user2)
+
+    get(
+      "/users/#{user.id}/posts"
+    )
+
+    json = JSON.parse(response.body)
+
+    expect(json['data'].length).to eq(2)
+  end
+
   # GET /posts/:id
   it 'sends the specified post' do
     post = FactoryBot.create(:post, title: 'Simple Title', body: 'Simple Body', user: user)

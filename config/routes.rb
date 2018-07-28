@@ -3,7 +3,10 @@ Rails.application.routes.draw do
 
   ### Auth ###
   # POST /users (registration)
-  resources :users, only: [:create]
+  resources :users, only: [:create] do
+    # GET /users/:id/posts (Posts of specified User)
+    resources :posts, only: [:index]
+  end
 
   # POST /login (login)
   resource :login, only: [:create], controller: :sessions
