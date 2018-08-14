@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users, only: []
 
-  ### Auth ###
+  ### User ###
   # POST /users (registration)
   resources :users, only: [:create] do
     # GET /users/:id/posts (Posts of specified User)
@@ -21,7 +21,8 @@ Rails.application.routes.draw do
   ### Post ###
   # GET /posts/:id (specified Post)
   # POST /posts (create a Post)
-  resources :posts, only: [:show, :create] do
+  # DELETE /posts/:id (delete specified Post)
+  resources :posts, only: [:show, :create, :destroy] do
     # GET /posts/latest (last 50 Posts)
     get 'latest', on: :collection
   end

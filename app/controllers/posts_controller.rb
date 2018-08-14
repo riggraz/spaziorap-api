@@ -1,7 +1,8 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user_from_token!, only: [:create]
+  before_action :authenticate_user_from_token!, only: [:create, :destroy]
 
   # GET /topics/:id/posts
+  # GET /users/:id/posts
   def index
     if !params[:topic_id].nil?
       @posts = Topic.find(params[:topic_id]).posts.order(created_at: :desc)
@@ -26,6 +27,17 @@ class PostsController < ApplicationController
       render json: PostSerializer.new(@post).serialized_json
     else
       render json: { error: I18n.t('post_create_error') }, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE /posts/:id
+  def destroy
+    @post = Post.find(params[:id])
+
+    if @post.user_id == current_user.id || current_user.admin
+      @post.destroy
+    else
+      render json: { error: I18n.t('Unauthorized - post_delete_error') }, status: :forbidden
     end
   end
 

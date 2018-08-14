@@ -78,6 +78,52 @@ RSpec.describe 'Posts API' do
     expect(Post.count).to eq(1)
   end
 
+  # DELETE /posts/:id
+  it 'deletes the specified post if you created it' do
+    post = FactoryBot.create(:post, user: user)
+    user2 = FactoryBot.create(:user)
+
+    expect(Post.count).to eq(1)
+
+    delete(
+      "/posts/#{post.id}",
+      headers: {
+        'Authorization': user2.access_token
+      }
+    )
+
+    expect(response).to be_forbidden
+    expect(Post.count).to eq(1)
+
+    delete(
+      "/posts/#{post.id}",
+      headers: {
+        'Authorization': user.access_token
+      }
+    )
+
+    expect(response).to be_success
+    expect(Post.count).to eq(0)
+  end
+
+  it 'deletes the specified post if you are admin' do
+    admin = FactoryBot.create(:user, admin: true)
+    user = FactoryBot.create(:user)
+    post = FactoryBot.create(:post, user: user)
+
+    expect(Post.count).to eq(1)
+
+    delete(
+      "/posts/#{post.id}",
+      headers: {
+        'Authorization': admin.access_token
+      }
+    )
+
+    expect(response).to be_success
+    expect(Post.count).to eq(0)
+  end
+
   # GET /posts/latest
   it 'sends the latest 50 posts' do
     FactoryBot.create_list(:post, 51, user: user)
