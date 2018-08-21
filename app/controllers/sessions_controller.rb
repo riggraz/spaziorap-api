@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
 
     if @user.valid_password?(params[:password])
       sign_in :user, @user
-      render json: SessionSerializer.new(current_user).serialized_json
+      render json: UserSerializer.new(current_user).serialized_json
     else
       invalid_login_attempt
     end

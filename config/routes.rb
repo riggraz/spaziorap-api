@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   resources :users, only: [:create] do
     # GET /users/:id/posts (Posts of specified User)
     resources :posts, only: [:index]
+
+    # GET /users/:id/score (score of specified User)
+    get 'score', on: :member
   end
 
   # POST /login (login)
@@ -25,5 +28,10 @@ Rails.application.routes.draw do
   resources :posts, only: [:show, :create, :destroy] do
     # GET /posts/latest (last 50 Posts)
     get 'latest', on: :collection
+
+    # GET /posts/:id/likes (Likes of specified Post)
+    resources :likes, only: [:index]
+    # POST /posts/:id/likes (create or update Like of specified Post)
+    resources :likes, only: [:create]
   end
 end
