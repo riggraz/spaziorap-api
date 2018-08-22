@@ -34,4 +34,8 @@ Rails.application.routes.draw do
     # POST /posts/:id/likes (create or update Like of specified Post)
     resources :likes, only: [:create]
   end
+
+  ### Songs ###
+  # GET /songs
+  resources :songs, only: [:index]
 end

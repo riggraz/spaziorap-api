@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180819093735) do
+ActiveRecord::Schema.define(version: 20180822131059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "artists", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "likes", force: :cascade do |t|
     t.integer "score", null: false
@@ -36,6 +42,15 @@ ActiveRecord::Schema.define(version: 20180819093735) do
     t.datetime "updated_at", null: false
     t.index ["topic_id"], name: "index_posts_on_topic_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
+  create_table "songs", force: :cascade do |t|
+    t.string "name"
+    t.string "url"
+    t.bigint "artist_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["artist_id"], name: "index_songs_on_artist_id"
   end
 
   create_table "topics", force: :cascade do |t|
@@ -65,4 +80,5 @@ ActiveRecord::Schema.define(version: 20180819093735) do
   add_foreign_key "likes", "users"
   add_foreign_key "posts", "topics"
   add_foreign_key "posts", "users"
+  add_foreign_key "songs", "artists"
 end
