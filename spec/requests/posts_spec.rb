@@ -40,7 +40,7 @@ RSpec.describe 'Posts API' do
 
   # GET /posts/:id
   it 'sends the specified post' do
-    post = FactoryBot.create(:post, title: 'Simple Title', body: 'Simple Body', user: user)
+    post = FactoryBot.create(:post, body: 'Simple Body', user: user)
 
     get(
       "/posts/#{post.id}"
@@ -49,7 +49,6 @@ RSpec.describe 'Posts API' do
     post_json = JSON.parse(response.body)['data']['attributes']
 
     expect(response).to be_success
-    expect(post_json['title']).to eq('Simple Title')
     expect(post_json['body']).to eq('Simple Body')
   end
 
@@ -64,7 +63,6 @@ RSpec.describe 'Posts API' do
       '/posts',
       params: {
         post: {
-          title: 'Title',
           body: 'Body',
           topic_id: topic.id
         }
