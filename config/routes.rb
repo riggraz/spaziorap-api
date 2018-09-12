@@ -38,4 +38,8 @@ Rails.application.routes.draw do
   ### Songs ###
   # GET /songs
   resources :songs, only: [:index]
+
+  ### Artists ###
+  # GET /artists
+  resources :artists, only: [:index]
 end
