@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe Topic, type: :model do
   let(:topic) { FactoryBot.build_stubbed(:topic) }
 
-  it 'has a name between 3 and 32 characters' do
-    short_topic = FactoryBot.build_stubbed(:topic, name: 'a' * 2)
+  it 'has a name between 2 and 32 characters' do
+    short_topic = FactoryBot.build_stubbed(:topic, name: 'a' * 1)
     long_topic = FactoryBot.build_stubbed(:topic, name: 'a' * 33)
 
     expect(topic).to be_valid
