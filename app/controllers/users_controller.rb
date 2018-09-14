@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user_from_token!, only: [:show]
+
   # POST /users (create a new user)
   def create
     @user = User.new(user_params)
@@ -7,6 +9,19 @@ class UsersController < ApplicationController
       render json: UserSerializer.new(@user).serialized_json
     else
       render json: { error: I18n.t('user_create_error') }, status: :unprocessable_entity
+    end
+  end
+
+  # GET /users/:id/verify_access_token (verify access_token of particular user: if successful returns user information)
+  def verify_access_token
+    auth_token = request.headers['Authorization']
+    user_id = auth_token.split(':').first
+    
+    if user_id == params[:id]
+      @user = User.find(user_id)
+      render json: UserSerializer.new(@user).serialized_json
+    else
+      render json: {error: I18n.t('unauthorized')}, status: 401
     end
   end
 

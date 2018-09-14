@@ -9,7 +9,11 @@ Rails.application.routes.draw do
 
     # GET /users/:id/score (score of specified User)
     get 'score', on: :member
+
+    # GET /users/:id/verify_access_token (verify the access_token of specified User)
+    get :verify_access_token, on: :member
   end
+  # resource :verify_access_token, only: [:show], controller: :users
 
   # POST /login (login)
   resource :login, only: [:create], controller: :sessions
