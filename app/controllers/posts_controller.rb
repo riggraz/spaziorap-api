@@ -34,8 +34,9 @@ class PostsController < ApplicationController
   def destroy
     @post = Post.find(params[:id])
 
-    if @post.user_id == current_user.id || current_user.admin
+    if current_user.admin
       @post.destroy
+      render json: PostSerializer.new(@post).serialized_json
     else
       render json: { error: I18n.t('Unauthorized - post_delete_error') }, status: :forbidden
     end
