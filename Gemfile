@@ -20,8 +20,11 @@ gem 'devise'
 # Use Fast Jsonapi to render json
 gem 'fast_jsonapi'
 
-#Use Factory Bot to create test data
+# Use Factory Bot to create test data
 gem 'factory_bot_rails'
+
+# Use kaminari to paginate posts
+gem 'kaminari'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
