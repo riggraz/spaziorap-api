@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users, only: []
 
-  ### User ###
+  ### Users ###
   # POST /users (registration)
   resources :users, only: [:create] do
     # GET /users/:id/posts (Posts of specified User)
@@ -18,14 +18,14 @@ Rails.application.routes.draw do
   # POST /login (login)
   resource :login, only: [:create], controller: :sessions
 
-  ### Topic ###
+  ### Topics ###
   # GET /topics (list of all Topics)
   resources :topics, only: [:index] do
     # GET /topics/:id/posts (Posts of specified Topic)
     resources :posts, only: [:index]
   end
 
-  ### Post ###
+  ### Posts ###
   # GET /posts/:id (specified Post)
   # POST /posts (create a Post)
   # DELETE /posts/:id (delete specified Post)
@@ -33,9 +33,17 @@ Rails.application.routes.draw do
     # GET /posts/latest (last 50 Posts)
     get 'latest', on: :collection
 
-    # GET /posts/:id/likes (Likes of specified Post)
-    resources :likes, only: [:index]
+    ### Likes ###
     # POST /posts/:id/likes (create or update Like of specified Post)
+    resources :likes, only: [:create]
+
+    ### Comments ###
+    # GET /posts/:id/comments (Comments of specified Post)
+    # POST /posts/:id/comments (create Comment for specified Post)
+    resources :comments, only: [:index, :create]
+  end
+
+  resources :comments, only: [] do
     resources :likes, only: [:create]
   end
 

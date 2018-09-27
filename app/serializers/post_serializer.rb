@@ -16,4 +16,9 @@ class PostSerializer
 
     score
   end
+
+  attribute :comments_count do |object|
+    comments = Comment.where(post_id: object.id)
+    comments_count = comments.size
+  end
 end

@@ -77,7 +77,7 @@ RSpec.describe 'Posts API' do
   end
 
   # DELETE /posts/:id
-  it 'deletes the specified post if you created it' do
+  it 'does not delete the specified post even though you created it' do
     post = FactoryBot.create(:post, user: user)
     user2 = FactoryBot.create(:user)
 
@@ -100,8 +100,8 @@ RSpec.describe 'Posts API' do
       }
     )
 
-    expect(response).to be_success
-    expect(Post.count).to eq(0)
+    expect(response).to be_forbidden
+    expect(Post.count).to eq(1)
   end
 
   it 'deletes the specified post if you are admin' do
@@ -123,8 +123,8 @@ RSpec.describe 'Posts API' do
   end
 
   # GET /posts/latest
-  it 'sends the latest 50 posts' do
-    FactoryBot.create_list(:post, 51, user: user)
+  it 'sends the latest posts paginated by 10' do
+    FactoryBot.create_list(:post, 11, user: user)
 
     get(
       '/posts/latest'
@@ -133,7 +133,7 @@ RSpec.describe 'Posts API' do
     json = JSON.parse(response.body)
 
     expect(response).to be_success
-    expect(json['data'].length).to eq(50)
+    expect(json['data'].length).to eq(10)
   end
 
 end
