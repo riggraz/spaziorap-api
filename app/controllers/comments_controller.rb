@@ -13,6 +13,7 @@ class CommentsController < ApplicationController
     @comment = Comment.new(comment_params)
 
     if @comment.save
+      create_notification
       render json: CommentSerializer.new(@comment).serialized_json
     else
       render json: { error: I18n.t('comment_error') }, status: :unprocessable_entity
@@ -23,6 +24,24 @@ class CommentsController < ApplicationController
 
     def comment_params
       params.require(:comment).permit(:body, :parent_id).merge(user_id: current_user.id, post_id: params[:post_id])
+    end
+
+    def create_notification
+      sender_id = current_user.id
+      receiver_id = nil
+      if (params[:comment][:parent_id] == nil)
+        receiver_id = Post.find(params[:post_id]).user_id
+      else
+        receiver_id = Comment.find(params[:comment][:parent_id]).user_id
+      end
+
+      if sender_id != receiver_id
+        notification = Notification.create(
+          sender_id: sender_id,
+          receiver_id: receiver_id,
+          post_id: params[:post_id]
+        )
+      end
     end
 
 end

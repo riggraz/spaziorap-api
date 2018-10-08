@@ -7,6 +7,9 @@ Rails.application.routes.draw do
     # GET /users/:id/posts (Posts of specified User)
     resources :posts, only: [:index]
 
+    # GET /users/:id/notifications (Notifications of specified User)
+    resources :notifications, only: [:index]
+
     # GET /users/:id/score (score of specified User)
     get 'score', on: :member
 
@@ -54,4 +57,9 @@ Rails.application.routes.draw do
   ### Artists ###
   # GET /artists
   resources :artists, only: [:index]
+
+  # POST /notifications/:id/mark_as_read (mark specified Notification as read)
+  resources :notifications, only: [] do
+    post 'mark_as_read', on: :member
+  end
 end
