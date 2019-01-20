@@ -1,7 +1,7 @@
 class SongSerializer
   include FastJsonapi::ObjectSerializer
   
-  attributes :name, :url
+  attributes :name, :url, :artist_id
 
   attribute :artist_name do |object|
     Artist.find(object.artist_id).name

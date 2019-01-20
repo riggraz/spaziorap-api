@@ -1,7 +1,7 @@
 class SongsController < ApplicationController
-  # GET /songs (returns latest songs)
-  def index
-    @songs = Song.order(created_at: :desc).limit(25)
+  # GET /songs/latest (returns latest songs)
+  def latest
+    @songs = Song.where(latest: true).order(created_at: :desc).limit(30)
     render json: SongSerializer.new(@songs).serialized_json
   end
 end

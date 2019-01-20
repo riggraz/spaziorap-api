@@ -52,7 +52,9 @@ Rails.application.routes.draw do
 
   ### Songs ###
   # GET /songs
-  resources :songs, only: [:index]
+  resources :songs, only: [] do
+    get 'latest', on: :collection
+  end
 
   ### Artists ###
   # GET /artists
