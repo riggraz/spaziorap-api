@@ -43,6 +43,10 @@ class CommentsController < ApplicationController
         )
 
         # sends push notification
+        if User.find(receiver_id).push_notification_token.nil?
+          return
+        end
+
         client = Exponent::Push::Client.new
         sender_username = '<utente sconosciuto>'
         if User.find(sender_id)
