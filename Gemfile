@@ -26,6 +26,9 @@ gem 'factory_bot_rails'
 # Use kaminari to paginate posts
 gem 'kaminari'
 
+# Use Exponent Server SDK to send push notifications to Expo
+gem 'exponent-server-sdk'
+
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 

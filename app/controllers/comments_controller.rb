@@ -13,7 +13,7 @@ class CommentsController < ApplicationController
     @comment = Comment.new(comment_params)
 
     if @comment.save
-      create_notification
+      create_notification(@comment)
       render json: CommentSerializer.new(@comment).serialized_json
     else
       render json: { error: I18n.t('comment_error') }, status: :unprocessable_entity
@@ -26,7 +26,7 @@ class CommentsController < ApplicationController
       params.require(:comment).permit(:body, :parent_id).merge(user_id: current_user.id, post_id: params[:post_id])
     end
 
-    def create_notification
+    def create_notification(comment)
       sender_id = current_user.id
       receiver_id = nil
       if (params[:comment][:parent_id] == nil)
@@ -41,6 +41,26 @@ class CommentsController < ApplicationController
           receiver_id: receiver_id,
           post_id: params[:post_id]
         )
+
+        # sends push notification
+        client = Exponent::Push::Client.new
+        sender_username = '<utente sconosciuto>'
+        if User.find(sender_id)
+          sender_username = User.find(sender_id).username
+        end
+
+        post_title = '<post sconosciuto>'
+        if Post.find(params[:post_id])
+          post_title = Post.find(params[:post_id]).body[0..16]
+        end
+
+        messages = [{
+          to: User.find(receiver_id).push_notification_token,
+          sound: "default",
+          title: "#{sender_username} ti ha risposto in '#{post_title}':",
+          body: "#{comment.body[0..64]}"
+        }]
+        client.publish messages
       end
     end
 

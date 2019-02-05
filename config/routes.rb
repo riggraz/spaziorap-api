@@ -15,6 +15,9 @@ Rails.application.routes.draw do
 
     # GET /users/:id/verify_access_token (verify the access_token of specified User)
     get :verify_access_token, on: :member
+
+    # POST /users/push_notification_token (push Expo's notification token)
+    post :push_notification_token, on: :collection
   end
   # resource :verify_access_token, only: [:show], controller: :users
 

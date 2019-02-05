@@ -21,7 +21,22 @@ class UsersController < ApplicationController
       @user = User.find(user_id)
       render json: UserSerializer.new(@user).serialized_json
     else
-      render json: {error: I18n.t('unauthorized')}, status: 401
+      render json: { error: I18n.t('unauthorized') }, status: 401
+    end
+  end
+
+  # POST /users/push_notification_token (adds Expo's notification token into DB)
+  def push_notification_token
+    username = params[:user][:username]
+    token = params[:token][:value]
+
+    user = User.find_by(username: username)
+    user.push_notification_token = token
+
+    if user.save
+      render json: { }, status: 204
+    else
+      render json: { error: I18n.t('push_notification_token_error') }, status: :unprocessable_entity
     end
   end
 
