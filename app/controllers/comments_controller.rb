@@ -55,14 +55,15 @@ class CommentsController < ApplicationController
 
         post_title = '<post sconosciuto>'
         if Post.find(params[:post_id])
-          post_title = Post.find(params[:post_id]).body[0..16]
+          post_title = Post.find(params[:post_id])
         end
 
         messages = [{
           to: User.find(receiver_id).push_notification_token,
           sound: "default",
           title: "#{sender_username} ti ha risposto in '#{post_title}':",
-          body: "#{comment.body[0..64]}"
+          body: "#{comment.body}",
+          ttl: 30.days.from_now
         }]
         client.publish messages
       end
