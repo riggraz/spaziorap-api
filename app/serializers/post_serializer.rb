@@ -8,17 +8,10 @@ class PostSerializer
   end
 
   attribute :score do |object|
-    score = 0
-    likes = Like.where(post_id: object.id)
-    likes.each do |like|
-      score += like.score
-    end
-
-    score
+    Like.where(post_id: object.id).sum(:score)
   end
 
   attribute :comments_count do |object|
-    comments = Comment.where(post_id: object.id)
-    comments_count = comments.size
+    Comment.where(post_id: object.id).size
   end
 end
