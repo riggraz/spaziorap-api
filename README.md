@@ -1,24 +1,9 @@
-# README
+# Spazio Rap API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+**Spazio Rap is an italian reddit-like social network for hip-hop enthusiasts.**
 
-Things you may want to cover:
+This is the web API for Spazio Rap app. For the app itself check out [Spazio Rap App](https://github.com/riggraz/spaziorap-app).
 
-* Ruby version
+## Download
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+You can download Spazio Rap from the [italian Google Play Store](https://play.google.com/store/apps/details?id=com.riccardograziosi.spaziorap).
