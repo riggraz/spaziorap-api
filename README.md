@@ -6,4 +6,4 @@ This is the web API for Spazio Rap app. For the app itself check out [Spazio Rap
 
 ## Download
 
-You can download Spazio Rap from the [italian Google Play Store](https://play.google.com/store/apps/details?id=com.riccardograziosi.spaziorap).
+You can download Spazio Rap from the [italian Google Play Store](https://play.google.com/store/apps/details?id=com.riccardograziosi.spaziorap). Available in Italy only.
